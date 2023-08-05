@@ -5,7 +5,6 @@ import Multiselect from "multiselect-react-dropdown";
 import DataTable from "react-data-table-component";
 import data from "./data/data.json";
 
-// import Dropdown from './Dropdown'
 
 
 interface FilterType {
