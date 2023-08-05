@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useMemo } from "react";
 import Multiselect from "multiselect-react-dropdown";
 
@@ -6,38 +7,6 @@ import data from "./data/data.json";
 
 // import Dropdown from './Dropdown'
 
-const columns = [
-  {
-    name: "Number",
-    selector: (row) => row.number,
-    sortable: true,
-  },
-  {
-    name: "Mod 3",
-    selector: (row) => row.mod3,
-    sortable: true,
-  },
-  {
-    name: "Mod 4",
-    selector: (row) => row.mod4,
-  },
-  {
-    name: "Mod 5",
-    selector: (row) => row.mod5,
-  },
-  {
-    name: "Mod 6",
-    selector: (row) => row.mod6,
-  },
-];
-
-interface ConstDataType {
-  number: number;
-  mod3: number;
-  mod4: number;
-  mod5: number;
-  mod6: number;
-}
 
 interface FilterType {
   number?: number[];
@@ -46,6 +15,45 @@ interface FilterType {
   mod5?: string[];
   mod6?: string[];
 }
+
+type FilterValueType = number|string
+
+const columns = [
+  {
+    name: "Number",
+    selector: (row: any) => row.number,
+    sortable: true,
+  },
+  {
+    name: "Mod 3",
+    selector: (row: any) => row.mod3,
+    sortable: true,
+  },
+  {
+    name: "Mod 4",
+    selector: (row: any) => row.mod4,
+  },
+  {
+    name: "Mod 5",
+    selector: (row: any) => row.mod5,
+  },
+  {
+    name: "Mod 6",
+    selector: (row: any) => row.mod6,
+  },
+];
+
+// interface ConstDataType {
+//   number: number;
+//   mod3: number;
+//   mod4: number;
+//   mod5: number;
+//   mod6: number;
+// }
+
+
+
+
 
 function App() {
   // filter data states
@@ -130,8 +138,11 @@ function App() {
   };
 
 
-  const handleRemove = (name: string) => (value: value) => {
-    setFilters({ ...filters, [name]: filters[name].filter((item) => item !== value) });
+  const handleRemove = (name: keyof(FilterType) ) => (value: FilterValueType) => {
+
+    const values  = (filters[name] ?? []) as FilterValueType[]
+
+    setFilters({ ...filters, [name]: values.filter((item) => item !== value) });
   };
 
   return (
